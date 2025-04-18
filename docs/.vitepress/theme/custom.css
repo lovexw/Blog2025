@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --vp-c-brand: #2528bd;
   --vp-c-brand-light: #005ffe;
   --vp-button-alt-bg:transparent;
@@ -18,4 +18,501 @@
 
 .VPButton{
   backdrop-filter: blur(30px);
+} */
+
+
+:root {
+  /* 主题色彩自定义 */
+  --vp-c-brand-1: #3498db;
+  --vp-c-brand-2: #2980b9;
+  --vp-c-brand-3: #1abc9c;
+  
+  /* Hero区域自定义 */
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(135deg, #3498db 10%, #1abc9c 100%);
+  
+  --vp-home-hero-image-background-image: linear-gradient(135deg, #3498db 10%, #1abc9c 100%);
+  --vp-home-hero-image-filter: blur(44px);
+}
+
+/* 标题行不换行调整 */
+.VPHero .main .text {
+  white-space: nowrap;
+  font-size: 2.75rem; /* 稍微调小字体确保不换行 */
+}
+
+/* 响应式调整标题大小 */
+@media (max-width: 768px) {
+  .VPHero .main .text {
+    font-size: 2rem;
+    white-space: normal; /* 小屏幕允许换行 */
+  }
+}
+
+/* SpotlightCursorText 增强 */
+.spotlight-cursor {
+  font-size: 2.5rem !important;
+  font-weight: 600 !important;
+  margin: 2rem 0 3rem !important;
+  text-align: center !important;
+  background: linear-gradient(to right, #3498db, #1abc9c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 8s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50% }
+  50% { background-position: 100% 50% }
+  100% { background-position: 0% 50% }
+}
+
+/* 主页特殊区块样式 - 修复显示问题 */
+.recent-posts, .learning-path, .tech-stack {
+  margin-top: 3.5rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  color: var(--vp-c-brand-1); /* 使用纯色替代渐变以确保显示完整 */
+  line-height: 1.4;
+}
+
+/* 最新文章区块 - 改进设计 */
+.recent-container {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: var(--vp-c-bg-soft);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: left;
+  border-left: 4px solid var(--vp-c-brand-1);
+}
+
+.recent-container li {
+  margin: 1rem 0;
+  font-size: 1.05rem;
+  list-style-type: none;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.recent-container li:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background-color: var(--vp-c-brand-1);
+  border-radius: 50%;
+}
+
+.recent-container a {
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: 500;
+}
+
+.recent-container a:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/* 学习路线样式 - 改进设计 */
+.path-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 2rem auto;
+  max-width: 960px;
+}
+
+.path-item {
+  flex: 1;
+  min-width: 250px;
+  padding: 1.8rem;
+  background: var(--vp-c-bg-soft);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+  border-top: 4px solid var(--vp-c-brand-1);
+}
+
+.path-item:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 40px 40px 0;
+  border-color: transparent var(--vp-c-brand-1) transparent transparent;
+  opacity: 0.3;
+}
+
+.path-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.path-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--vp-c-brand-1);
+}
+
+.path-content {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  color: var(--vp-c-text-2);
+}
+
+.path-link {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: var(--vp-c-brand-1);
+  color: white !important;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.path-link:hover {
+  background: var(--vp-c-brand-2);
+  transform: translateY(-2px);
+}
+
+/* 完全重新设计的技术栈部分 */
+.stack-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  margin: 2.5rem auto;
+  max-width: 960px;
+}
+
+.stack-category {
+  flex: 1;
+  min-width: 280px;
+  background: var(--vp-c-bg-soft);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stack-category:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+.category-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--vp-c-brand-1);
+  padding: 1rem 1.5rem;
+  margin: 0;
+  border-radius: 16px 16px 0 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  padding: 1.5rem;
+  justify-content: center;
+}
+
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.2rem;
+  background: #fff;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.tech-tag::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--vp-c-brand-1) 0%, var(--vp-c-brand-3) 100%);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s;
+}
+
+.tech-tag:hover {
+  transform: translateY(-2px) scale(1.05);
+  color: #fff;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.tech-tag:hover::before {
+  opacity: 1;
+}
+
+/* 为每个技术栈类别设置不同的颜色 */
+.stack-category:nth-child(1) .category-title {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.stack-category:nth-child(2) .category-title {
+  background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+}
+
+.stack-category:nth-child(3) .category-title {
+  background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+}
+
+/* 可选：添加一些装饰元素 */
+.stack-category::after {
+  content: '';
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  width: 60px;
+  height: 60px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.stack-category:nth-child(1)::after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%233498db"><path d="M12 0l12 7v10l-12 7L0 17V7z"/></svg>');
+}
+
+.stack-category:nth-child(2)::after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%231abc9c"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>');
+}
+
+.stack-category:nth-child(3)::after {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%239b59b6"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14h-2v-8h2v8zm4 0h-2V8h2v8z"/></svg>');
+}
+
+/* 添加一个容器简介 */
+.stack-intro {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 2rem;
+  color: var(--vp-c-text-2);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .path-container, .stack-container {
+    flex-direction: column;
+  }
+  
+  .spotlight-cursor {
+    font-size: 2rem !important;
+  }
+  
+  .recent-posts, .learning-path, .tech-stack {
+    font-size: 1.75rem;
+  }
+  
+  .recent-container, .path-item, .stack-category {
+    padding: 1.25rem;
+  }
+}
+
+/* 重新设计的内容区域 - 确保左对齐 */
+.content-container {
+  max-width: 1152px; /* 与VitePress主内容区域宽度一致 */
+  margin: 4rem auto;
+  padding: 0 24px; /* 与VitePress默认内边距一致 */
+  box-sizing: border-box;
+}
+
+@media (min-width: 640px) {
+  .content-container {
+    padding: 0 48px; /* 与VitePress响应式内边距一致 */
+  }
+}
+
+@media (min-width: 960px) {
+  .content-container {
+    padding: 0 64px; /* 与VitePress响应式内边距一致 */
+  }
+}
+
+/* 区域标题 - 使用主题颜色 */
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--vp-c-text-1); /* 使用主题文本颜色 */
+  border-bottom: 1px solid var(--vp-c-divider); /* 使用主题分隔线颜色 */
+  padding-bottom: 0.5rem;
+  text-align: left;
+}
+
+/* 内容区块 */
+.content-section {
+  margin-bottom: 3.5rem;
+  text-align: left; /* 确保内容左对齐 */
+}
+
+/* 文章列表 */
+.article-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.article-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--vp-c-bg-soft);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  transition: transform 0.3s, background-color 0.3s;
+  border: 1px solid var(--vp-c-divider);
+}
+
+.article-item:hover {
+  transform: translateX(6px);
+  background: var(--vp-c-bg-mute);
+  border-color: var(--vp-c-brand-1);
+}
+
+.article-icon {
+  font-size: 1.25rem;
+  margin-right: 1rem;
+}
+
+.article-link {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+}
+
+.article-link:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/* 技术标签云 */
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1rem 0 3rem 0;
+}
+
+.tech-tag {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--vp-c-bg-soft);
+  border-radius: 4px;
+  color: var(--vp-c-text-1);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--vp-c-divider);
+  transition: all 0.3s;
+}
+
+.tech-tag:hover {
+  background: var(--vp-c-brand-1);
+  color: white;
+  transform: translateY(-2px);
+  border-color: var(--vp-c-brand-1);
+}
+
+/* SpotlightCursorText居中显示 */
+.vp-doc .spotlight-cursor {
+  display: block;
+  text-align: center;
+  margin: 2rem 0 3rem;
+}
+
+/* 防止滚动条导致的布局跳动 */
+html {
+  overflow-y: scroll;
+}
+
+/* 为现代浏览器使用 scrollbar-gutter 属性 */
+@supports (scrollbar-gutter: stable) {
+  html {
+    scrollbar-gutter: stable;
+  }
+}
+
+/* 自定义滚动条样式 - 使用 webkit 前缀确保 Safari 兼容性 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vp-c-bg-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vp-c-gray-light-4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vp-c-gray-light-3);
+}
+
+/* 现代浏览器的滚动条样式 */
+@supports (scrollbar-width: thin) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--vp-c-gray-light-4) var(--vp-c-bg-soft);
+  }
+}
+
+/* 修复 appearance 兼容性问题 */
+.custom-appearance {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* 修复 text-size-adjust 兼容性问题 */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 修复 user-select 兼容性问题 */
+.custom-no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
