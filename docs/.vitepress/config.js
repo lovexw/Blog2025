@@ -150,7 +150,103 @@ export default defineConfig({
     // add jquert and fancybox
     ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js' }],
     ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.js' }],
-    ['link', { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.css' }]
+    ['link', { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.css' }],
+    // 移动导航面板滚动锁定 - 改进版本
+    ['script', {}, `
+      (function() {
+        // 保存原始滚动位置
+        let scrollPosition = 0;
+        
+        // 使用轮询方式检测导航面板状态
+        function setupNavScrollLock() {
+          let isNavOpen = false;
+          
+          // 每100ms检查一次导航面板状态
+          setInterval(function() {
+            // 寻找更可靠的导航菜单状态指示符
+            const navScreen = document.querySelector('.VPNavScreen');
+            const hamburger = document.querySelector('.VPNavBarHamburger');
+            
+            if (!navScreen || !hamburger) return;
+            
+            // 检测导航菜单是否打开
+            const isCurrentlyOpen = navScreen.classList.contains('has-sidebar') || 
+                                   navScreen.style.display === 'block' || 
+                                   hamburger.getAttribute('aria-expanded') === 'true';
+            
+            // 状态变化时处理
+            if (isCurrentlyOpen !== isNavOpen) {
+              isNavOpen = isCurrentlyOpen;
+              
+              if (isNavOpen) {
+                // 菜单打开: 锁定滚动
+                scrollPosition = window.pageYOffset;
+                document.body.style.overflow = 'hidden';
+                document.body.style.position = 'fixed';
+                document.body.style.top = \`-\${scrollPosition}px\`;
+                document.body.style.width = '100%';
+                
+                // 尝试禁用触摸移动
+                document.addEventListener('touchmove', preventTouchMove, { passive: false });
+              } else {
+                // 菜单关闭: 恢复滚动
+                document.body.style.overflow = '';
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.width = '';
+                window.scrollTo(0, scrollPosition);
+                
+                // 恢复触摸移动
+                document.removeEventListener('touchmove', preventTouchMove);
+              }
+            }
+          }, 100);
+        }
+        
+        // 阻止触摸移动事件
+        function preventTouchMove(e) {
+          // 检查是否在导航菜单内的滚动
+          const target = e.target;
+          const navScreen = document.querySelector('.VPNavScreen');
+          
+          // 允许导航菜单内部滚动
+          if (navScreen && navScreen.contains(target) && 
+              (target.scrollHeight > target.clientHeight || 
+               target.closest('.VPNavScreenMenu') !== null)) {
+            return;
+          }
+          
+          e.preventDefault();
+        }
+        
+        // 在DOM完全加载后设置滚动锁定
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', setupNavScrollLock);
+        } else {
+          setupNavScrollLock();
+        }
+      })();
+    `],
+    // 添加移动端视图优化的样式
+    ['style', {}, `
+      @media (max-width: 768px) {
+        /* 改进导航菜单显示 */
+        .VPNavScreen {
+          z-index: 100 !important;
+        }
+        
+        /* 确保内容在导航打开时不会滚动 */
+        body.overflow-hidden {
+          overflow: hidden !important;
+        }
+        
+        /* 防止内容跳动 */
+        body.fixed-position {
+          position: fixed !important;
+          width: 100% !important;
+        }
+      }
+    `]
   ],
   markdown: {
     config: (md) => {
