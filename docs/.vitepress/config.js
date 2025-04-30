@@ -137,7 +137,7 @@ console.log('Navigation configuration:', processedNav)
 console.log('Sidebar configuration:', processedSidebar)
 
 export default defineConfig({
-  base: '',
+  base: '/Vitepress_Blog/',
   appearance: false,
   lang: 'zh-CN',
   title: 'Code More Create',
