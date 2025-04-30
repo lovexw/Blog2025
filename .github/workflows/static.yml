@@ -37,7 +37,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18 # 更新到 Node.js 18，以兼容最新版本的 pnpm
           cache: 'pnpm'
       
       - name: Setup Pages
