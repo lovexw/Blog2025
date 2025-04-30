@@ -1,38 +1,33 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy VitePress to GitHub Pages
+# 用于将VitePress站点部署到GitHub Pages的工作流
+name: Deploy to GitHub Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # 当推送到主分支时触发
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
+  # 允许从Actions标签页手动触发
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# 所需权限
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# 同一时间只允许一个部署作业
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # 构建作业
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 获取完整历史记录，用于"最近更新"功能
+          fetch-depth: 0 # 获取完整历史记录用于最近更新功能
       
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
@@ -44,6 +39,10 @@ jobs:
         with:
           node-version: 16
           cache: 'pnpm'
+      
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
       
       - name: Install dependencies
         run: pnpm install
@@ -58,36 +57,24 @@ jobs:
           echo "查看 index.html 是否存在:"
           if [ -f docs/.vitepress/dist/index.html ]; then
             echo "index.html 文件存在"
-            cat docs/.vitepress/dist/index.html | head -20
           else
             echo "index.html 文件不存在"
           fi
-          echo "查看构建目录结构:"
-          find docs/.vitepress/dist -type f | sort
-      
-      # 清理任何现有工件
-      - name: Clean existing artifacts
-        run: |
-          echo "尝试清理现有工件"
-          rm -rf ./_site
-          mkdir -p ./_site
-      
-      # 将构建输出复制到单独的目录
-      - name: Copy build output
-        run: |
-          cp -r docs/.vitepress/dist/* ./_site/
-      
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      
+
+      # 纯净上传构建产物
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages-deploy # 指定唯一名称避免冲突
-          path: './_site'
-      
+          path: "docs/.vitepress/dist"
+
+  # 部署作业
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          artifact_name: github-pages-deploy # 使用相同的唯一名称
