@@ -51,6 +51,20 @@ jobs:
       - name: Build
         run: pnpm run build
       
+      - name: Debug - List Build Output
+        run: |
+          echo "查看构建输出目录内容:"
+          ls -la docs/.vitepress/dist/
+          echo "查看 index.html 是否存在:"
+          if [ -f docs/.vitepress/dist/index.html ]; then
+            echo "index.html 文件存在"
+            cat docs/.vitepress/dist/index.html | head -20
+          else
+            echo "index.html 文件不存在"
+          fi
+          echo "查看构建目录结构:"
+          find docs/.vitepress/dist -type f | sort
+      
       - name: Setup Pages
         uses: actions/configure-pages@v5
       
