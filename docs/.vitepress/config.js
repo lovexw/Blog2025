@@ -136,8 +136,9 @@ const processedSidebar = processSidebar(sidebar);
 console.log('Navigation configuration:', processedNav)
 console.log('Sidebar configuration:', processedSidebar)
 
+// 当通过github访问时候使用 base: '/Vitepress_Blog/', 目前配置了cloudflare则使用 / 
 export default defineConfig({
-  base: '/Vitepress_Blog/',
+  base: '/',
   appearance: false,
   lang: 'zh-CN',
   title: 'Code More Create',
