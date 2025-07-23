@@ -35,3 +35,5 @@ pnpm-debug.log*
 *.bak
 *.tmp
 *~
+# .gitignore
+docs/**/*.xmind
